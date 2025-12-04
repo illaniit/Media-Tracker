@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Plus, Film, Tv, Loader2, LogOut, MessageCircle } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { mediaApi } from '../../lib/supabase/api';
-import { MediaItem, MediaType } from '../../lib/supabase/types';
+import { MediaItem } from '../../lib/supabase/types';
 import MediaCard from './MediaCard';
 import AddMediaModal from './AddMediaModal';
 

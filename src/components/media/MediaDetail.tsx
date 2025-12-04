@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Edit2, Trash2, Save, X, Film, Tv, Star, Calendar, Globe } from 'lucide-react';
-import { mediaApi, seasonsApi } from '../../lib/supabase/api';
+import { mediaApi } from '../../lib/supabase/api';
 import { MediaItem, MediaStatus } from '../../lib/supabase/types';
 import SeasonList from './SeasonList';
 
@@ -336,7 +336,6 @@ export default function MediaDetail() {
             <div className="border-t border-slate-700 p-6">
               <h2 className="text-xl font-bold text-slate-100 mb-4">Temporadas</h2>
               <SeasonList
-                mediaId={item.id}
                 seasons={item.seasons || []}
                 onUpdate={handleSeasonUpdate}
               />

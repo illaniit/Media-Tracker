@@ -7,12 +7,11 @@ import { Season } from '../../lib/supabase/types';
 import { seasonsApi } from '../../lib/supabase/api';
 
 interface SeasonListProps {
-  mediaId: string;
   seasons: Season[];
   onUpdate: () => void;
 }
 
-export default function SeasonList({ mediaId, seasons, onUpdate }: SeasonListProps) {
+export default function SeasonList({ seasons, onUpdate }: SeasonListProps) {
   const [updating, setUpdating] = useState<string | null>(null);
 
   const handleIncrement = async (seasonId: string) => {
