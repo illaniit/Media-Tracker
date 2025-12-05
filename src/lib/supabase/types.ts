@@ -1,7 +1,7 @@
 // src/lib/supabase/types.ts
 // Tipos TypeScript para la base de datos
 
-export type MediaType = 'movie' | 'series';
+export type MediaType = 'movie' | 'series' | 'book' | 'videogame' | 'comic';
 export type MediaStatus = 'watching' | 'completed' | 'plan_to_watch' | 'dropped';
 
 export interface Profile {
@@ -41,6 +41,7 @@ export interface Season {
   season_number: number;
   episodes_watched: number;
   total_episodes: number;
+  rating?: number;
   is_completed: boolean;
   created_at: string;
   updated_at: string;
@@ -96,6 +97,7 @@ export interface UpdateMediaItem {
 export interface UpdateSeason {
   episodes_watched?: number;
   total_episodes?: number;
+  rating?: number;
 }
 
 // Tipos para TMDB API

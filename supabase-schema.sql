@@ -47,8 +47,8 @@ CREATE POLICY "Users can insert own profile"
 -- ===================================================================
 -- 2. TABLA: media_items
 -- ===================================================================
--- Almacena las películas y series del usuario
-CREATE TYPE media_type AS ENUM ('movie', 'series');
+-- Almacena las películas, series, libros, videojuegos y comics del usuario
+CREATE TYPE media_type AS ENUM ('movie', 'series', 'book', 'videogame', 'comic');
 CREATE TYPE media_status AS ENUM ('watching', 'completed', 'plan_to_watch', 'dropped');
 
 CREATE TABLE IF NOT EXISTS public.media_items (
@@ -108,13 +108,14 @@ CREATE POLICY "Users can delete own media items"
 -- ===================================================================
 -- 3. TABLA: seasons
 -- ===================================================================
--- Almacena las temporadas de las series
+-- Almacena las temporadas de las series con rating individual
 CREATE TABLE IF NOT EXISTS public.seasons (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     media_id UUID NOT NULL REFERENCES public.media_items(id) ON DELETE CASCADE,
     season_number INTEGER NOT NULL CHECK (season_number > 0),
     episodes_watched INTEGER NOT NULL DEFAULT 0 CHECK (episodes_watched >= 0),
     total_episodes INTEGER NOT NULL CHECK (total_episodes > 0),
+    rating INTEGER CHECK (rating >= 1 AND rating <= 10),
     is_completed BOOLEAN GENERATED ALWAYS AS (episodes_watched >= total_episodes) STORED,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),

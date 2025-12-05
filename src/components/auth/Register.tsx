@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { Film, Loader2 } from 'lucide-react';
+import { Film, Loader2, CheckCircle } from 'lucide-react';
 
 export default function Register() {
   const [email, setEmail] = useState('');
@@ -12,6 +12,7 @@ export default function Register() {
   const [username, setUsername] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const { signUp } = useAuth();
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ export default function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess(false);
 
     // Validaciones
     if (password !== confirmPassword) {
@@ -44,7 +46,10 @@ export default function Register() {
         setError(error.message || 'Error al registrarse');
       } else {
         // Registro exitoso
-        navigate('/dashboard');
+        setSuccess(true);
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 2000);
       }
     } catch (err) {
       setError('Error inesperado. Por favor, intenta de nuevo.');
@@ -77,6 +82,13 @@ export default function Register() {
             {error && (
               <div className="bg-red-500/10 border border-red-500 text-red-400 px-4 py-3 rounded-lg text-sm">
                 {error}
+              </div>
+            )}
+
+            {success && (
+              <div className="bg-green-500/10 border border-green-500 text-green-400 px-4 py-3 rounded-lg text-sm flex items-center gap-2">
+                <CheckCircle className="w-5 h-5" />
+                ¡Cuenta creada exitosamente! Redirigiendo al dashboard...
               </div>
             )}
 

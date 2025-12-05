@@ -1,7 +1,7 @@
 // src/components/dashboard/MediaCard.tsx
 // Tarjeta individual para mostrar un item de media
 
-import { Star, Film, Tv, MessageCircle } from 'lucide-react';
+import { Star, Film, Tv, MessageCircle, Book, Gamepad2, BookOpen } from 'lucide-react';
 import { MediaItem } from '../../lib/supabase/types';
 
 interface MediaCardProps {
@@ -45,8 +45,14 @@ export default function MediaCard({ item, onClick }: MediaCardProps) {
           <div className="w-full h-full flex items-center justify-center">
             {item.type === 'movie' ? (
               <Film className="w-16 h-16 text-slate-600" />
-            ) : (
+            ) : item.type === 'series' ? (
               <Tv className="w-16 h-16 text-slate-600" />
+            ) : item.type === 'book' ? (
+              <Book className="w-16 h-16 text-slate-600" />
+            ) : item.type === 'videogame' ? (
+              <Gamepad2 className="w-16 h-16 text-slate-600" />
+            ) : (
+              <BookOpen className="w-16 h-16 text-slate-600" />
             )}
           </div>
         )}
@@ -55,8 +61,14 @@ export default function MediaCard({ item, onClick }: MediaCardProps) {
         <div className="absolute top-2 right-2 bg-slate-900/80 backdrop-blur-sm px-2 py-1 rounded-md">
           {item.type === 'movie' ? (
             <Film className="w-4 h-4 text-slate-300" />
-          ) : (
+          ) : item.type === 'series' ? (
             <Tv className="w-4 h-4 text-slate-300" />
+          ) : item.type === 'book' ? (
+            <Book className="w-4 h-4 text-slate-300" />
+          ) : item.type === 'videogame' ? (
+            <Gamepad2 className="w-4 h-4 text-slate-300" />
+          ) : (
+            <BookOpen className="w-4 h-4 text-slate-300" />
           )}
         </div>
 

@@ -1,8 +1,8 @@
 // src/components/dashboard/AddMediaModal.tsx
-// Modal mejorado para añadir películas y series (sin APIs externas)
+// Modal mejorado para añadir películas, series, libros, videojuegos y comics
 
 import { useState } from 'react';
-import { X, Plus, Trash2, Film, Tv, AlertCircle, Sparkles, Calendar, Loader2 } from 'lucide-react';
+import { X, Plus, Trash2, Film, Tv, AlertCircle, Sparkles, Calendar, Loader2, Book, Gamepad2, BookOpen } from 'lucide-react';
 import { mediaApi, seasonsApi } from '../../lib/supabase/api';
 import { MediaType, MediaStatus } from '../../lib/supabase/types';
 
@@ -31,6 +31,24 @@ const TV_GENRES = [
   'Talk Show', 'Guerra & Política', 'Western'
 ];
 
+const BOOK_GENRES = [
+  'Ficción', 'No Ficción', 'Ciencia Ficción', 'Fantasía', 'Misterio',
+  'Thriller', 'Romance', 'Horror', 'Histórica', 'Biografía',
+  'Autoayuda', 'Poesía', 'Drama', 'Aventura', 'Juvenil'
+];
+
+const VIDEOGAME_GENRES = [
+  'Acción', 'Aventura', 'RPG', 'Estrategia', 'Shooter', 
+  'Deportes', 'Carreras', 'Simulación', 'Puzzle', 'Horror',
+  'Plataformas', 'Fighting', 'MMORPG', 'Indie', 'Sandbox'
+];
+
+const COMIC_GENRES = [
+  'Superhéroes', 'Manga', 'Ciencia Ficción', 'Fantasía', 'Horror',
+  'Aventura', 'Humor', 'Drama', 'Acción', 'Romance',
+  'Misterio', 'Slice of Life', 'Histórico', 'Thriller', 'Seinen'
+];
+
 export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps) {
   const [title, setTitle] = useState('');
   const [type, setType] = useState<MediaType>('movie');
@@ -45,7 +63,12 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const currentGenres = type === 'movie' ? MOVIE_GENRES : TV_GENRES;
+  const currentGenres = 
+    type === 'movie' ? MOVIE_GENRES :
+    type === 'series' ? TV_GENRES :
+    type === 'book' ? BOOK_GENRES :
+    type === 'videogame' ? VIDEOGAME_GENRES :
+    type === 'comic' ? COMIC_GENRES : [];
 
   const handleAddSeason = () => {
     const nextSeasonNumber = seasons.length > 0 
@@ -171,21 +194,21 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
               <label className="block text-sm font-medium text-slate-300 mb-2">
                 ¿Qué quieres añadir? *
               </label>
-              <div className="grid grid-cols-2 gap-2 sm:gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
                 <button
                   type="button"
                   onClick={() => {
                     setType('movie');
                     resetForm();
                   }}
-                  className={`px-3 sm:px-4 py-3 sm:py-4 rounded-lg font-medium transition flex items-center justify-center gap-2 sm:gap-3 text-sm sm:text-base ${
+                  className={`px-3 py-3 rounded-lg font-medium transition flex items-center justify-center gap-2 text-sm ${
                     type === 'movie'
                       ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30'
                       : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
                   }`}
                 >
-                  <Film className="w-5 h-5 sm:w-6 sm:h-6" />
-                  <span>Película</span>
+                  <Film className="w-5 h-5" />
+                  <span className="hidden sm:inline">Película</span>
                 </button>
                 <button
                   type="button"
@@ -193,14 +216,59 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                     setType('series');
                     resetForm();
                   }}
-                  className={`px-3 sm:px-4 py-3 sm:py-4 rounded-lg font-medium transition flex items-center justify-center gap-2 sm:gap-3 text-sm sm:text-base ${
+                  className={`px-3 py-3 rounded-lg font-medium transition flex items-center justify-center gap-2 text-sm ${
                     type === 'series'
                       ? 'bg-gradient-to-r from-purple-600 to-purple-500 text-white shadow-lg shadow-purple-500/30'
                       : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
                   }`}
                 >
-                  <Tv className="w-5 h-5 sm:w-6 sm:h-6" />
-                  <span>Serie</span>
+                  <Tv className="w-5 h-5" />
+                  <span className="hidden sm:inline">Serie</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setType('book');
+                    resetForm();
+                  }}
+                  className={`px-3 py-3 rounded-lg font-medium transition flex items-center justify-center gap-2 text-sm ${
+                    type === 'book'
+                      ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-lg shadow-green-500/30'
+                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                  }`}
+                >
+                  <Book className="w-5 h-5" />
+                  <span className="hidden sm:inline">Libro</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setType('videogame');
+                    resetForm();
+                  }}
+                  className={`px-3 py-3 rounded-lg font-medium transition flex items-center justify-center gap-2 text-sm ${
+                    type === 'videogame'
+                      ? 'bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-lg shadow-orange-500/30'
+                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                  }`}
+                >
+                  <Gamepad2 className="w-5 h-5" />
+                  <span className="hidden sm:inline">Videojuego</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setType('comic');
+                    resetForm();
+                  }}
+                  className={`px-3 py-3 rounded-lg font-medium transition flex items-center justify-center gap-2 text-sm ${
+                    type === 'comic'
+                      ? 'bg-gradient-to-r from-pink-600 to-pink-500 text-white shadow-lg shadow-pink-500/30'
+                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                  }`}
+                >
+                  <BookOpen className="w-5 h-5" />
+                  <span className="hidden sm:inline">Comic</span>
                 </button>
               </div>
             </div>

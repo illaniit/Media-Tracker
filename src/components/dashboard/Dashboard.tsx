@@ -3,14 +3,14 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Film, Tv, Loader2, LogOut, MessageCircle } from 'lucide-react';
+import { Plus, Film, Tv, Loader2, LogOut, MessageCircle, Book, Gamepad2, BookOpen } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { mediaApi } from '../../lib/supabase/api';
 import { MediaItem } from '../../lib/supabase/types';
 import MediaCard from './MediaCard';
 import AddMediaModal from './AddMediaModal';
 
-type FilterType = 'all' | 'movie' | 'series' | 'reviews' | 'pending-movies' | 'pending-series';
+type FilterType = 'all' | 'movie' | 'series' | 'book' | 'videogame' | 'comic' | 'reviews' | 'pending-movies' | 'pending-series' | 'pending-books' | 'pending-videogames' | 'pending-comics';
 
 export default function Dashboard() {
   const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
@@ -52,6 +52,15 @@ export default function Dashboard() {
     } else if (filter === 'pending-series') {
       // Series pendientes de ver
       setFilteredItems(mediaItems.filter((item) => item.type === 'series' && item.status === 'plan_to_watch'));
+    } else if (filter === 'pending-books') {
+      // Libros pendientes de leer
+      setFilteredItems(mediaItems.filter((item) => item.type === 'book' && item.status === 'plan_to_watch'));
+    } else if (filter === 'pending-videogames') {
+      // Videojuegos pendientes de jugar
+      setFilteredItems(mediaItems.filter((item) => item.type === 'videogame' && item.status === 'plan_to_watch'));
+    } else if (filter === 'pending-comics') {
+      // Comics pendientes de leer
+      setFilteredItems(mediaItems.filter((item) => item.type === 'comic' && item.status === 'plan_to_watch'));
     } else {
       setFilteredItems(mediaItems.filter((item) => item.type === filter));
     }
@@ -137,6 +146,40 @@ export default function Dashboard() {
                 <span>Series</span>
               </button>
               <button
+                onClick={() => setFilter('book')}
+                className={`flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 rounded-lg font-medium transition text-sm sm:text-base ${
+                  filter === 'book'
+                    ? 'bg-green-600 text-white'
+                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                }`}
+              >
+                <Book className="w-4 h-4" />
+                <span>Libros</span>
+              </button>
+              <button
+                onClick={() => setFilter('videogame')}
+                className={`flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 rounded-lg font-medium transition text-sm sm:text-base ${
+                  filter === 'videogame'
+                    ? 'bg-orange-600 text-white'
+                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                }`}
+              >
+                <Gamepad2 className="w-4 h-4" />
+                <span className="hidden sm:inline">Videojuegos</span>
+                <span className="sm:hidden">Games</span>
+              </button>
+              <button
+                onClick={() => setFilter('comic')}
+                className={`flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 rounded-lg font-medium transition text-sm sm:text-base ${
+                  filter === 'comic'
+                    ? 'bg-pink-600 text-white'
+                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                }`}
+              >
+                <BookOpen className="w-4 h-4" />
+                <span>Comics</span>
+              </button>
+              <button
                 onClick={() => setFilter('reviews')}
                 className={`flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 rounded-lg font-medium transition text-sm sm:text-base ${
                   filter === 'reviews'
@@ -183,6 +226,40 @@ export default function Dashboard() {
             >
               <Tv className="w-3 h-3 sm:w-4 sm:h-4" />
               <span>Series por ver</span>
+            </button>
+            <button
+              onClick={() => setFilter('pending-books')}
+              className={`flex items-center space-x-1 sm:space-x-2 px-3 py-1.5 rounded-lg font-medium transition text-xs sm:text-sm ${
+                filter === 'pending-books'
+                  ? 'bg-yellow-600 text-white'
+                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+              }`}
+            >
+              <Book className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span>Libros por leer</span>
+            </button>
+            <button
+              onClick={() => setFilter('pending-videogames')}
+              className={`flex items-center space-x-1 sm:space-x-2 px-3 py-1.5 rounded-lg font-medium transition text-xs sm:text-sm ${
+                filter === 'pending-videogames'
+                  ? 'bg-yellow-600 text-white'
+                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+              }`}
+            >
+              <Gamepad2 className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Videojuegos por jugar</span>
+              <span className="sm:hidden">Games pendientes</span>
+            </button>
+            <button
+              onClick={() => setFilter('pending-comics')}
+              className={`flex items-center space-x-1 sm:space-x-2 px-3 py-1.5 rounded-lg font-medium transition text-xs sm:text-sm ${
+                filter === 'pending-comics'
+                  ? 'bg-yellow-600 text-white'
+                  : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+              }`}
+            >
+              <BookOpen className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span>Comics por leer</span>
             </button>
           </div>
         </div>
