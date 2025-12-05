@@ -164,27 +164,27 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 z-50 overflow-y-auto">
-      <div className="bg-slate-800 rounded-lg shadow-2xl w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col my-auto">
+    <div className="fixed inset-0 bg-gradient-to-br from-slate-900/95 via-purple-900/40 to-blue-900/40 backdrop-blur-lg flex items-center justify-center p-2 sm:p-4 z-50 overflow-y-auto animate-[fadeIn_0.2s_ease-out]">
+      <div className="glass-dark rounded-2xl shadow-[0_0_50px_rgba(168,85,247,0.3)] w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col my-auto border border-white/10">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-slate-700 flex-shrink-0">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-white/10 flex-shrink-0 bg-gradient-to-r from-purple-500/10 to-blue-500/10">
           <div className="flex items-center gap-2 sm:gap-3">
-            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-100">Añadir Contenido</h2>
+            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400 animate-pulse" />
+            <h2 className="text-xl sm:text-2xl font-bold gradient-text">Añadir Contenido</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-slate-700 rounded-lg transition"
+            className="p-2 glass hover:bg-white/20 rounded-xl transition-all duration-300 hover:scale-110 hover:rotate-90"
           >
-            <X className="w-5 h-5 text-slate-400" />
+            <X className="w-5 h-5 text-slate-300" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto">
           <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
             {error && (
-              <div className="bg-red-500/10 border border-red-500 text-red-400 px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-xs sm:text-sm flex items-start gap-2">
-                <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5" />
+              <div className="glass border border-red-400/50 text-red-300 px-3 sm:px-4 py-2 sm:py-3 rounded-xl text-xs sm:text-sm flex items-start gap-2 bg-red-500/10">
+                <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5 animate-pulse" />
                 <span>{error}</span>
               </div>
             )}
@@ -201,10 +201,10 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                     setType('movie');
                     resetForm();
                   }}
-                  className={`px-3 py-3 rounded-lg font-medium transition flex items-center justify-center gap-2 text-sm ${
+                  className={`px-3 py-3 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${
                     type === 'movie'
-                      ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg shadow-blue-500/30'
-                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/50 scale-105 border-2 border-blue-400'
+                      : 'glass text-slate-300 hover:bg-white/10 hover:scale-105 border border-white/10'
                   }`}
                 >
                   <Film className="w-5 h-5" />
@@ -216,10 +216,10 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                     setType('series');
                     resetForm();
                   }}
-                  className={`px-3 py-3 rounded-lg font-medium transition flex items-center justify-center gap-2 text-sm ${
+                  className={`px-3 py-3 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${
                     type === 'series'
-                      ? 'bg-gradient-to-r from-purple-600 to-purple-500 text-white shadow-lg shadow-purple-500/30'
-                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      ? 'bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg shadow-purple-500/50 scale-105 border-2 border-purple-400'
+                      : 'glass text-slate-300 hover:bg-white/10 hover:scale-105 border border-white/10'
                   }`}
                 >
                   <Tv className="w-5 h-5" />
@@ -231,10 +231,10 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                     setType('book');
                     resetForm();
                   }}
-                  className={`px-3 py-3 rounded-lg font-medium transition flex items-center justify-center gap-2 text-sm ${
+                  className={`px-3 py-3 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${
                     type === 'book'
-                      ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-lg shadow-green-500/30'
-                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      ? 'bg-gradient-to-r from-green-600 to-emerald-500 text-white shadow-lg shadow-green-500/50 scale-105 border-2 border-green-400'
+                      : 'glass text-slate-300 hover:bg-white/10 hover:scale-105 border border-white/10'
                   }`}
                 >
                   <Book className="w-5 h-5" />
@@ -246,10 +246,10 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                     setType('videogame');
                     resetForm();
                   }}
-                  className={`px-3 py-3 rounded-lg font-medium transition flex items-center justify-center gap-2 text-sm ${
+                  className={`px-3 py-3 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${
                     type === 'videogame'
-                      ? 'bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-lg shadow-orange-500/30'
-                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      ? 'bg-gradient-to-r from-orange-600 to-red-500 text-white shadow-lg shadow-orange-500/50 scale-105 border-2 border-orange-400'
+                      : 'glass text-slate-300 hover:bg-white/10 hover:scale-105 border border-white/10'
                   }`}
                 >
                   <Gamepad2 className="w-5 h-5" />
@@ -261,10 +261,10 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                     setType('comic');
                     resetForm();
                   }}
-                  className={`px-3 py-3 rounded-lg font-medium transition flex items-center justify-center gap-2 text-sm ${
+                  className={`px-3 py-3 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${
                     type === 'comic'
-                      ? 'bg-gradient-to-r from-pink-600 to-pink-500 text-white shadow-lg shadow-pink-500/30'
-                      : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                      ? 'bg-gradient-to-r from-pink-600 to-rose-500 text-white shadow-lg shadow-pink-500/50 scale-105 border-2 border-pink-400'
+                      : 'glass text-slate-300 hover:bg-white/10 hover:scale-105 border border-white/10'
                   }`}
                 >
                   <BookOpen className="w-5 h-5" />
@@ -273,23 +273,23 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
               </div>
             </div>
 
-            <div className="border-t border-slate-700 pt-6">
-              <h3 className="text-lg font-semibold text-slate-100 mb-4 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-blue-400" />
+            <div className="border-t border-white/10 pt-6">
+              <h3 className="text-lg font-bold gradient-text mb-4 flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-blue-400 animate-pulse" />
                 Información Básica
               </h3>
 
               <div className="space-y-4">
                 {/* Título */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Título *
+                  <label className="block text-sm font-bold text-slate-300 mb-2">
+                    🎬 Título *
                   </label>
                   <input
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                    className="w-full px-4 py-3 glass border border-white/20 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-400 focus:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all duration-300"
                     placeholder={type === 'movie' ? 'Ej: Inception' : 'Ej: Breaking Bad'}
                     required
                     autoFocus
@@ -299,7 +299,7 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                 {/* Año y Estado en grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                    <label className="block text-sm font-bold text-slate-300 mb-2">
                       <Calendar className="w-4 h-4 inline mr-1" />
                       Año de Lanzamiento
                     </label>
@@ -309,19 +309,19 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                       max={new Date().getFullYear() + 5}
                       value={releaseYear}
                       onChange={(e) => setReleaseYear(e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                      className="w-full px-4 py-3 glass border border-white/20 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-400 focus:shadow-[0_0_20px_rgba(168,85,247,0.5)] transition-all duration-300"
                       placeholder="Ej: 2023"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
-                      Estado
+                    <label className="block text-sm font-bold text-slate-300 mb-2">
+                      🎯 Estado
                     </label>
                     <select
                       value={status}
                       onChange={(e) => setStatus(e.target.value as MediaStatus)}
-                      className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                      className="w-full px-4 py-3 glass border border-white/20 rounded-xl text-slate-100 focus:outline-none focus:border-blue-400 focus:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all duration-300"
                     >
                       <option value="plan_to_watch">📋 Por ver</option>
                       <option value="watching">▶️ Viendo</option>
@@ -333,8 +333,8 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
 
                 {/* Rating */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Tu Calificación (1-10)
+                  <label className="block text-sm font-bold text-slate-300 mb-2">
+                    ⭐ Tu Calificación (1-10)
                   </label>
                   <div className="flex items-center gap-4">
                     <input
@@ -345,8 +345,8 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                       onChange={(e) => setRating(parseInt(e.target.value))}
                       className="flex-1"
                     />
-                    <div className="w-20 px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-center">
-                      <span className="text-2xl font-bold text-blue-400">
+                    <div className="w-20 px-4 py-3 glass border border-blue-400/50 rounded-xl text-center shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+                      <span className="text-2xl font-bold gradient-text">
                         {rating || 5}
                       </span>
                       <span className="text-xs text-slate-400">/10</span>
@@ -356,19 +356,19 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
 
                 {/* Opinión Personal (solo si está completado) */}
                 {status === 'completed' && (
-                  <div className="bg-blue-500/10 border-2 border-blue-500/30 rounded-lg p-4">
-                    <label className="block text-sm font-medium text-blue-300 mb-2 flex items-center gap-2">
-                      <Sparkles className="w-4 h-4" />
+                  <div className="glass border-2 border-blue-400/50 rounded-xl p-4 bg-gradient-to-br from-blue-500/10 to-purple-500/10">
+                    <label className="block text-sm font-bold text-blue-300 mb-2 flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 animate-pulse" />
                       Tu Opinión Personal
                     </label>
                     <textarea
                       value={review}
                       onChange={(e) => setReview(e.target.value)}
                       rows={4}
-                      className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
+                      className="w-full px-4 py-3 glass border border-white/20 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-400 focus:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all duration-300 resize-none"
                       placeholder="¿Qué te pareció? Escribe tu opinión sobre esta película o serie..."
                     />
-                    <p className="text-xs text-slate-500 mt-2">
+                    <p className="text-xs text-slate-400 mt-2">
                       Esta opinión se mostrará en tus contenidos completados
                     </p>
                   </div>
@@ -376,28 +376,28 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
 
                 {/* Sinopsis */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    Sinopsis (opcional)
+                  <label className="block text-sm font-bold text-slate-300 mb-2">
+                    📝 Sinopsis (opcional)
                   </label>
                   <textarea
                     value={overview}
                     onChange={(e) => setOverview(e.target.value)}
                     rows={3}
-                    className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
+                    className="w-full px-4 py-3 glass border border-white/20 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-400 focus:shadow-[0_0_20px_rgba(168,85,247,0.5)] transition-all duration-300 resize-none"
                     placeholder="Breve descripción de la trama..."
                   />
                 </div>
 
                 {/* Poster URL */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">
-                    URL del Poster (opcional)
+                  <label className="block text-sm font-bold text-slate-300 mb-2">
+                    🇺️ URL del Poster (opcional)
                   </label>
                   <input
                     type="url"
                     value={posterUrl}
                     onChange={(e) => setPosterUrl(e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                    className="w-full px-4 py-3 glass border border-white/20 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-pink-400 focus:shadow-[0_0_20px_rgba(236,72,153,0.5)] transition-all duration-300"
                     placeholder="https://ejemplo.com/poster.jpg"
                   />
                   {posterUrl && (
@@ -405,7 +405,7 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                       <img
                         src={posterUrl}
                         alt="Preview"
-                        className="w-32 h-48 object-cover rounded-lg border border-slate-600"
+                        className="w-32 h-48 object-cover rounded-xl border-2 border-purple-400/50 shadow-lg"
                         onError={(e) => {
                           e.currentTarget.style.display = 'none';
                         }}
@@ -417,9 +417,9 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
             </div>
 
             {/* Géneros */}
-            <div className="border-t border-slate-700 pt-6">
-              <label className="block text-sm font-medium text-slate-300 mb-3">
-                Géneros (selecciona los que apliquen)
+            <div className="border-t border-white/10 pt-6">
+              <label className="block text-sm font-bold text-slate-300 mb-3">
+                🎬 Géneros (selecciona los que apliquen)
               </label>
               <div className="flex flex-wrap gap-2">
                 {currentGenres.map((genre) => (
@@ -427,10 +427,10 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                     key={genre}
                     type="button"
                     onClick={() => toggleGenre(genre)}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition ${
+                    className={`px-3 py-1.5 rounded-xl text-sm font-bold transition-all duration-300 ${
                       selectedGenres.includes(genre)
-                        ? 'bg-blue-600 text-white border-2 border-blue-400'
-                        : 'bg-slate-700 text-slate-300 hover:bg-slate-600 border-2 border-transparent'
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-500 text-white border-2 border-blue-400 shadow-lg shadow-blue-500/50 scale-105'
+                        : 'glass text-slate-300 hover:bg-white/10 hover:scale-105 border border-white/20'
                     }`}
                   >
                     {genre}
@@ -441,15 +441,15 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
 
             {/* Temporadas (solo para series) */}
             {type === 'series' && (
-              <div className="border-t border-slate-700 pt-6">
+              <div className="border-t border-white/10 pt-6">
                 <div className="flex items-center justify-between mb-4">
-                  <label className="block text-sm font-medium text-slate-300">
-                    Temporadas * {seasons.length > 0 && `(${seasons.length})`}
+                  <label className="block text-sm font-bold text-slate-300">
+                    📺 Temporadas * {seasons.length > 0 && `(${seasons.length})`}
                   </label>
                   <button
                     type="button"
                     onClick={handleAddSeason}
-                    className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition font-medium"
+                    className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-500 hover:from-blue-700 hover:to-purple-600 text-white text-sm rounded-xl transition-all duration-300 font-bold shadow-lg hover:shadow-[0_0_20px_rgba(168,85,247,0.5)] hover:scale-105"
                   >
                     <Plus className="w-4 h-4" />
                     <span>Añadir Temporada</span>
@@ -457,10 +457,10 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                 </div>
 
                 {seasons.length === 0 ? (
-                  <div className="bg-slate-700/50 border-2 border-dashed border-slate-600 rounded-lg p-8 text-center">
-                    <Tv className="w-12 h-12 text-slate-500 mx-auto mb-3" />
+                  <div className="glass border-2 border-dashed border-white/20 rounded-xl p-8 text-center">
+                    <Tv className="w-12 h-12 text-slate-400 mx-auto mb-3 animate-pulse" />
                     <p className="text-slate-400 text-sm">
-                      No hay temporadas. Haz clic en "Añadir Temporada" para comenzar.
+                      No hay temporadas. Haz clic en “Añadir Temporada” para comenzar.
                     </p>
                   </div>
                 ) : (
@@ -468,10 +468,10 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                     {seasons.map((season, index) => (
                       <div
                         key={index}
-                        className="flex items-center gap-3 bg-slate-700 p-4 rounded-lg hover:bg-slate-600/50 transition"
+                        className="flex items-center gap-3 glass border border-white/20 p-4 rounded-xl hover:bg-white/10 transition-all duration-300 hover:scale-[1.02]"
                       >
                         <div className="flex-1">
-                          <label className="block text-xs text-slate-400 mb-1">
+                          <label className="block text-xs text-slate-400 mb-1 font-bold">
                             Número de Temporada
                           </label>
                           <input
@@ -481,11 +481,11 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                             onChange={(e) =>
                               handleSeasonChange(index, 'season_number', parseInt(e.target.value))
                             }
-                            className="w-full px-3 py-2 bg-slate-600 border border-slate-500 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                            className="w-full px-3 py-2 glass border border-white/20 rounded-lg text-slate-100 focus:outline-none focus:border-blue-400 focus:shadow-[0_0_15px_rgba(59,130,246,0.4)] transition-all duration-300"
                           />
                         </div>
                         <div className="flex-1">
-                          <label className="block text-xs text-slate-400 mb-1">
+                          <label className="block text-xs text-slate-400 mb-1 font-bold">
                             Total de Episodios
                           </label>
                           <input
@@ -495,13 +495,13 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                             onChange={(e) =>
                               handleSeasonChange(index, 'total_episodes', parseInt(e.target.value))
                             }
-                            className="w-full px-3 py-2 bg-slate-600 border border-slate-500 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                            className="w-full px-3 py-2 glass border border-white/20 rounded-lg text-slate-100 focus:outline-none focus:border-blue-400 focus:shadow-[0_0_15px_rgba(59,130,246,0.4)] transition-all duration-300"
                           />
                         </div>
                         <button
                           type="button"
                           onClick={() => handleRemoveSeason(index)}
-                          className="mt-5 p-2 hover:bg-red-600/20 text-red-400 rounded-lg transition"
+                          className="mt-5 p-2 glass hover:bg-red-600/30 text-red-400 rounded-lg transition-all duration-300 hover:scale-110"
                           title="Eliminar temporada"
                         >
                           <Trash2 className="w-5 h-5" />
@@ -515,22 +515,22 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
           </div>
 
           {/* Footer */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-3 p-4 sm:p-6 border-t border-slate-700 bg-slate-800/50 flex-shrink-0">
-            <p className="text-xs text-slate-500 text-center sm:text-left">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-3 p-4 sm:p-6 border-t border-white/10 glass flex-shrink-0">
+            <p className="text-xs text-slate-400 text-center sm:text-left">
               Los campos marcados con * son obligatorios
             </p>
             <div className="flex gap-2 sm:gap-3">
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-100 rounded-lg transition font-medium text-sm sm:text-base"
+                className="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 glass hover:bg-white/20 text-slate-100 rounded-xl transition-all duration-300 font-bold text-sm sm:text-base border border-white/20 hover:scale-105"
               >
                 Cancelar
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white rounded-lg transition font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-blue-500/30 text-sm sm:text-base"
+                className="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white rounded-xl transition-all duration-300 font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-purple-500/50 hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] text-sm sm:text-base hover:scale-105 disabled:hover:scale-100"
               >
                 {loading ? (
                   <>

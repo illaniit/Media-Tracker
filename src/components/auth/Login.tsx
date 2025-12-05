@@ -34,35 +34,45 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-purple-950 flex items-center justify-center px-4 py-8 relative overflow-hidden">
+      {/* Animated Background Orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-700"></div>
+        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      </div>
+
+      <div className="max-w-md w-full space-y-8 relative z-10">
         {/* Logo y título */}
         <div className="text-center">
           <div className="flex justify-center">
-            <div className="bg-blue-600 p-3 rounded-full">
-              <Film className="w-10 h-10 text-white" />
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl blur-xl opacity-75 group-hover:opacity-100 animate-pulse"></div>
+              <div className="relative bg-gradient-to-r from-blue-500 to-purple-600 p-4 rounded-2xl">
+                <Film className="w-12 h-12 text-white" />
+              </div>
             </div>
           </div>
-          <h2 className="mt-6 text-3xl font-bold text-slate-100">
+          <h2 className="mt-6 text-4xl font-black bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
             Media Tracker
           </h2>
-          <p className="mt-2 text-sm text-slate-400">
-            Tu watchlist personal de películas y series
+          <p className="mt-3 text-base text-slate-400 font-medium">
+            Tu colección personal de contenido 🎬📚🎮
           </p>
         </div>
 
         {/* Formulario */}
-        <div className="bg-slate-800 rounded-lg shadow-xl p-8">
+        <div className="glass-dark rounded-2xl shadow-2xl p-8 border border-white/10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
-              <div className="bg-red-500/10 border border-red-500 text-red-400 px-4 py-3 rounded-lg text-sm">
-                {error}
+              <div className="glass rounded-xl border border-red-500/30 bg-gradient-to-r from-red-500/10 to-pink-500/10 text-red-300 px-4 py-3 text-sm font-medium backdrop-blur-xl">
+                ⚠️ {error}
               </div>
             )}
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
-                Correo electrónico
+              <label htmlFor="email" className="block text-sm font-bold text-slate-300 mb-2">
+                ✉️ Correo electrónico
               </label>
               <input
                 id="email"
@@ -72,14 +82,14 @@ export default function Login() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                className="w-full px-4 py-3 glass rounded-xl text-slate-100 placeholder-slate-500 border border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 backdrop-blur-xl"
                 placeholder="tu@email.com"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-2">
-                Contraseña
+              <label htmlFor="password" className="block text-sm font-bold text-slate-300 mb-2">
+                🔒 Contraseña
               </label>
               <input
                 id="password"
@@ -89,7 +99,7 @@ export default function Login() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                className="w-full px-4 py-3 glass rounded-xl text-slate-100 placeholder-slate-500 border border-white/10 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 backdrop-blur-xl"
                 placeholder="••••••••"
               />
             </div>
@@ -97,15 +107,16 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center items-center px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group relative w-full flex justify-center items-center px-4 py-3.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-blue-500/50 hover:shadow-blue-500/70 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 overflow-hidden"
             >
+              <div className="absolute inset-0 bg-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
               {loading ? (
                 <>
-                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                  Iniciando sesión...
+                  <Loader2 className="w-5 h-5 mr-2 animate-spin relative z-10" />
+                  <span className="relative z-10">Iniciando sesión...</span>
                 </>
               ) : (
-                'Iniciar sesión'
+                <span className="relative z-10">Iniciar sesión ✨</span>
               )}
             </button>
           </form>
@@ -115,7 +126,7 @@ export default function Login() {
               ¿No tienes una cuenta?{' '}
               <Link
                 to="/register"
-                className="text-blue-400 hover:text-blue-300 font-medium transition"
+                className="text-transparent bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text hover:from-blue-300 hover:to-purple-300 font-bold transition"
               >
                 Regístrate aquí
               </Link>
