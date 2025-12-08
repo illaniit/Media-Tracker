@@ -1,11 +1,14 @@
 // src/components/dashboard/AddMediaModal.tsx
 // Modal mejorado para añadir películas, series, libros, videojuegos y comics
 
-import { useState } from 'react';
-import { X, Plus, Trash2, Film, Tv, AlertCircle, Sparkles, Calendar, Loader2, Book, Gamepad2, BookOpen } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { X, Plus, Trash2, Film, Tv, AlertCircle, Sparkles, Calendar, Loader2, Book, Gamepad2, BookOpen, Search } from 'lucide-react';
 import { mediaApi, seasonsApi } from '../../lib/supabase/api';
 import { useGuest } from '../../contexts/GuestContext';
 import { MediaType, MediaStatus } from '../../lib/supabase/types';
+import { searchMovies, searchTVShows, isTMDBConfigured, getImageUrl } from '../../lib/tmdb/tmdbApi';
+import { searchGames, isIGDBConfigured, type IGDBSearchResult } from '../../lib/igdb/igdbApi';
+import { searchComics, isComicVineConfigured, type ComicSearchResult } from '../../lib/comicvine/comicvineApi';
 
 interface AddMediaModalProps {
   onClose: () => void;
@@ -64,6 +67,12 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
   const [seasons, setSeasons] = useState<SeasonInput[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  
+  // Estados para búsqueda de APIs
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showSearchResults, setShowSearchResults] = useState(false);
 
   const currentGenres = 
     type === 'movie' ? MOVIE_GENRES :
@@ -71,6 +80,103 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
     type === 'book' ? BOOK_GENRES :
     type === 'videogame' ? VIDEOGAME_GENRES :
     type === 'comic' ? COMIC_GENRES : [];
+
+  // Función para buscar contenido en las APIs
+  const handleSearch = useCallback(async () => {
+    if (!searchQuery.trim() || searchQuery.length < 3) {
+      setSearchResults([]);
+      setShowSearchResults(false);
+      return;
+    }
+
+    setIsSearching(true);
+    setError('');
+
+    try {
+      let results: any[] = [];
+
+      if (type === 'movie' && isTMDBConfigured()) {
+        const response = await searchMovies(searchQuery);
+        results = response.results.slice(0, 8).map((movie: any) => ({
+          id: movie.id,
+          title: movie.title,
+          overview: movie.overview,
+          poster: getImageUrl(movie.poster_path, 'poster', 'medium'),
+          year: movie.release_date ? new Date(movie.release_date).getFullYear() : undefined,
+          rating: movie.vote_average ? Math.round(movie.vote_average * 10) / 10 : undefined,
+        }));
+      } else if (type === 'series' && isTMDBConfigured()) {
+        const response = await searchTVShows(searchQuery);
+        results = response.results.slice(0, 8).map((show: any) => ({
+          id: show.id,
+          title: show.name,
+          overview: show.overview,
+          poster: getImageUrl(show.poster_path, 'poster', 'medium'),
+          year: show.first_air_date ? new Date(show.first_air_date).getFullYear() : undefined,
+          rating: show.vote_average ? Math.round(show.vote_average * 10) / 10 : undefined,
+        }));
+      } else if (type === 'videogame' && isIGDBConfigured()) {
+        const games = await searchGames(searchQuery, 8);
+        results = games.map((game: IGDBSearchResult) => ({
+          id: game.id,
+          title: game.name,
+          overview: game.summary,
+          poster: game.coverUrl,
+          year: game.releaseDate ? new Date(game.releaseDate).getFullYear() : undefined,
+          rating: game.rating,
+          genres: game.genres,
+        }));
+      } else if (type === 'comic' && isComicVineConfigured()) {
+        const comics = await searchComics(searchQuery, 8);
+        results = comics.map((comic: ComicSearchResult) => ({
+          id: comic.id,
+          title: comic.name,
+          overview: comic.description,
+          poster: comic.coverUrl,
+          year: comic.startYear ? parseInt(comic.startYear) : undefined,
+          publisher: comic.publisher,
+        }));
+      }
+
+      setSearchResults(results);
+      setShowSearchResults(results.length > 0);
+    } catch (err: any) {
+      console.error('Error en búsqueda:', err);
+      setError('Error al buscar. Verifica tu configuración de API.');
+    } finally {
+      setIsSearching(false);
+    }
+  }, [searchQuery, type]);
+
+  // Buscar automáticamente cuando cambia el query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchQuery.length >= 3) {
+        handleSearch();
+      } else {
+        setSearchResults([]);
+        setShowSearchResults(false);
+      }
+    }, 500); // Debounce de 500ms
+
+    return () => clearTimeout(timer);
+  }, [searchQuery, handleSearch]);
+
+  // Función para seleccionar un resultado de búsqueda
+  const selectSearchResult = (result: any) => {
+    setTitle(result.title);
+    setOverview(result.overview || '');
+    setPosterUrl(result.poster || '');
+    setReleaseYear(result.year?.toString() || '');
+    if (result.rating) {
+      setRating(result.rating);
+    }
+    if (result.genres && result.genres.length > 0) {
+      setSelectedGenres(result.genres.slice(0, 3)); // Máximo 3 géneros
+    }
+    setShowSearchResults(false);
+    setSearchQuery('');
+  };
 
   const handleAddSeason = () => {
     const nextSeasonNumber = seasons.length > 0 
@@ -294,6 +400,86 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                 </button>
               </div>
             </div>
+
+            {/* Buscador de API */}
+            {(type === 'movie' || type === 'series' || type === 'videogame' || type === 'comic') && (
+              <div className="relative">
+                <label className="block text-sm font-medium text-neutral-300 mb-2">
+                  {type === 'movie' && isTMDBConfigured() && '🎬 Buscar película en TMDB'}
+                  {type === 'series' && isTMDBConfigured() && '📺 Buscar serie en TMDB'}
+                  {type === 'videogame' && isIGDBConfigured() && '🎮 Buscar videojuego en IGDB'}
+                  {type === 'comic' && isComicVineConfigured() && '📚 Buscar cómic en ComicVine'}
+                  {!((type === 'movie' || type === 'series') && isTMDBConfigured()) && 
+                   !(type === 'videogame' && isIGDBConfigured()) && 
+                   !(type === 'comic' && isComicVineConfigured()) && 
+                   '🔍 Búsqueda (API no configurada)'}
+                </label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-500" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={`Buscar ${type === 'movie' ? 'película' : type === 'series' ? 'serie' : type === 'videogame' ? 'videojuego' : 'cómic'}...`}
+                    className="w-full pl-10 pr-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent"
+                    disabled={
+                      !((type === 'movie' || type === 'series') && isTMDBConfigured()) && 
+                      !(type === 'videogame' && isIGDBConfigured()) && 
+                      !(type === 'comic' && isComicVineConfigured())
+                    }
+                  />
+                  {isSearching && (
+                    <Loader2 className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-amber-400 animate-spin" />
+                  )}
+                </div>
+
+                {/* Resultados de búsqueda */}
+                {showSearchResults && searchResults.length > 0 && (
+                  <div className="absolute z-50 w-full mt-2 bg-neutral-900 border border-neutral-800 rounded-xl shadow-2xl max-h-96 overflow-y-auto">
+                    {searchResults.map((result, index) => (
+                      <button
+                        key={`${result.id}-${index}`}
+                        type="button"
+                        onClick={() => selectSearchResult(result)}
+                        className="w-full p-3 hover:bg-neutral-800 flex gap-3 items-start text-left transition-colors"
+                      >
+                        {result.poster && (
+                          <img
+                            src={result.poster}
+                            alt={result.title}
+                            className="w-12 h-16 object-cover rounded-lg flex-shrink-0"
+                          />
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-neutral-100 truncate">
+                            {result.title}
+                            {result.year && (
+                              <span className="text-neutral-400 ml-2">({result.year})</span>
+                            )}
+                          </h4>
+                          {result.overview && (
+                            <p className="text-xs text-neutral-400 line-clamp-2 mt-1">
+                              {result.overview}
+                            </p>
+                          )}
+                          {result.rating && (
+                            <div className="flex items-center gap-1 mt-1">
+                              <span className="text-amber-400 text-xs">⭐</span>
+                              <span className="text-xs text-neutral-300">{result.rating}/10</span>
+                            </div>
+                          )}
+                          {result.publisher && (
+                            <p className="text-xs text-neutral-500 mt-1">
+                              {result.publisher}
+                            </p>
+                          )}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="border-t border-neutral-800 pt-6">
               <h3 className="text-lg font-bold text-amber-400 mb-4 flex items-center gap-2">

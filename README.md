@@ -42,6 +42,13 @@ Como estudiante de ingeniería informática, creé esta aplicación para:
 - **Reviews personales**: Escribe tus opiniones sobre cada contenido
 - **Modo invitado**: Prueba la app sin registrarte (datos en localStorage)
 
+### 🔍 Búsqueda Automática (Opcional)
+- **TMDB Integration**: Búsqueda automática de películas y series con datos completos
+- **IGDB Integration**: Encuentra videojuegos con información detallada
+- **ComicVine Integration**: Busca cómics, manga y novelas gráficas
+- **Autocompletado inteligente**: Rellena automáticamente títulos, portadas, descripciones y más
+- **100% Opcional**: La app funciona perfectamente sin configurar APIs
+
 ### 🔐 Autenticación y Seguridad
 - Sistema de autenticación completo
 - Tus datos son privados por defecto
@@ -91,7 +98,7 @@ npm run dev
 
 La aplicación estará disponible en: `http://localhost:5173`
 
-> **Nota**: Para usar todas las funcionalidades necesitarás configurar tus propias credenciales. Consulta la documentación adicional en los archivos del proyecto.
+> **Nota**: Para usar todas las funcionalidades necesitarás configurar tus propias credenciales. Consulta la [Guía de Configuración de APIs](./API-KEYS-GUIDE.md) para obtener las claves necesarias (100% opcional).
 
 ---
 
@@ -116,19 +123,53 @@ La aplicación estará disponible en: `http://localhost:5173`
 1. **Añadir contenido**
    - Click en el botón "+" en el Dashboard
    - Selecciona el tipo (Película, Serie, Libro, Videojuego, Comic)
-   - Rellena los detalles
+   - **Opción A**: Usa el buscador automático (si configuraste APIs)
+   - **Opción B**: Rellena manualmente los detalles
    - Guarda y organiza
 
-2. **Organizar por estados**
+2. **Buscar con APIs** (Opcional)
+   - Escribe el nombre en el buscador
+   - Selecciona de los resultados sugeridos
+   - Los datos se rellenan automáticamente
+   - Ajusta o añade detalles personales
+
+3. **Organizar por estados**
    - **Planificado**: Contenido que quieres ver/leer/jugar
    - **En Progreso**: Actualmente consumiendo
    - **Completado**: Ya terminado
    - **En Espera**: Pausado temporalmente
    - **Abandonado**: No planeas continuar
 
-3. **Calificar y reseñar**
+4. **Calificar y reseñar**
    - Añade tu rating personal (1-10)
    - Escribe tu opinión en la sección de review
+
+---
+
+## 🔑 Configuración de APIs (Opcional)
+
+Las APIs externas mejoran la experiencia pero **NO son obligatorias**:
+
+### APIs Soportadas
+
+| API | Para qué sirve | Requerida | Guía |
+|-----|---------------|-----------|------|
+| **TMDB** | Películas y Series | ❌ Opcional | [Obtener Key](https://www.themoviedb.org/settings/api) |
+| **IGDB** | Videojuegos | ❌ Opcional | [Obtener Credentials](https://dev.twitch.tv/console/apps) |
+| **ComicVine** | Cómics y Manga | ❌ Opcional | [Obtener Key](https://comicvine.gamespot.com/api/) |
+
+### Configuración Rápida
+
+1. Lee la [Guía Completa de APIs](./API-KEYS-GUIDE.md)
+2. Copia `.env.example` a `.env`
+3. Añade tus API keys obtenidas
+4. Reinicia el servidor de desarrollo
+
+**Sin APIs configuradas**:
+- ✅ Todas las funciones CRUD funcionan
+- ✅ Puedes añadir contenido manualmente
+- ❌ No hay búsqueda automática
+- ❌ No se autocompletan datos
 
 ---
 

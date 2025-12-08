@@ -61,6 +61,19 @@ SUPABASE_SERVICE_ROLE_KEY    # Acceso total a la base de datos
 DATABASE_URL                  # Conexión directa a PostgreSQL
 SECRET_KEY                    # Claves secretas de API
 PRIVATE_KEY                   # Claves privadas de cualquier tipo
+VITE_IGDB_CLIENT_SECRET      # Client Secret de IGDB (sensible)
+```
+
+### ⚠️ Keys Sensibles pero Menos Críticas
+
+```bash
+# ⚠️ Estas son más seguras pero evita exponerlas públicamente
+VITE_TMDB_API_KEY            # API Key de TMDB
+VITE_COMICVINE_API_KEY       # API Key de ComicVine
+VITE_IGDB_CLIENT_ID          # Client ID de IGDB
+
+# Aunque estas son relativamente seguras para frontend,
+# es mejor mantenerlas privadas para evitar abuso
 ```
 
 ---
@@ -212,6 +225,42 @@ Si GitHub detecta algo:
 - [Supabase Security Best Practices](https://supabase.com/docs/guides/security)
 - [GitHub Secret Scanning](https://docs.github.com/en/code-security/secret-scanning)
 - [OWASP Top 10](https://owasp.org/www-project-top-ten/)
+- [API Keys Guide](./API-KEYS-GUIDE.md) - Guía completa de configuración de APIs
+- [TMDB Terms of Use](https://www.themoviedb.org/terms-of-use)
+- [IGDB API Documentation](https://api-docs.igdb.com/)
+
+---
+
+## 🔑 Manejo Seguro de API Keys Externas
+
+### TMDB (The Movie Database)
+
+✅ **Segura para frontend**: Sí, con limitaciones
+- La API key puede estar en el código frontend
+- TMDB permite esto para uso personal/educativo
+- Respeta los rate limits (40 req/10s)
+
+### IGDB (Internet Game Database)
+
+⚠️ **Parcialmente segura**:
+- `VITE_IGDB_CLIENT_ID`: Segura para frontend
+- `VITE_IGDB_CLIENT_SECRET`: **Sensible, solo para backend**
+
+🔒 **Recomendación para producción**:
+```typescript
+// ❌ MAL: Client Secret en frontend
+const token = await getAccessToken(clientId, clientSecret);
+
+// ✅ BIEN: Proxy backend
+const games = await fetch('/api/igdb/search?query=zelda');
+```
+
+### ComicVine
+
+✅ **Relativamente segura**: Sí
+- La API key puede estar en frontend
+- Limita peticiones para evitar bloqueos (200/hora)
+- Usa rate limiting y caché
 
 ---
 
