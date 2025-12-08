@@ -9,7 +9,7 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Dashboard from './components/dashboard/Dashboard';
 import MediaDetail from './components/media/MediaDetail';
-import LandingPage from './components/LandingPage';
+import LandingPage from './components/landing/LandingPage';
 
 function App() {
   return (

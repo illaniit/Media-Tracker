@@ -116,7 +116,7 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
     try {
       if (isGuest) {
         // Modo invitado: guardar en localStorage
-        const newItem = addGuestItem({
+        addGuestItem({
           title: title.trim(),
           type,
           status,

@@ -8,7 +8,7 @@ import { MediaItem } from '../lib/supabase/types';
 interface GuestContextType {
   isGuest: boolean;
   guestData: MediaItem[];
-  addGuestItem: (item: Omit<MediaItem, 'id' | 'user_id' | 'created_at'>) => MediaItem;
+  addGuestItem: (item: Omit<MediaItem, 'id' | 'user_id' | 'created_at' | 'updated_at'>) => MediaItem;
   updateGuestItem: (id: string, updates: Partial<MediaItem>) => void;
   deleteGuestItem: (id: string) => void;
   getGuestItemById: (id: string) => MediaItem | undefined;
@@ -64,12 +64,14 @@ export function GuestProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const addGuestItem = (item: Omit<MediaItem, 'id' | 'user_id' | 'created_at'>): MediaItem => {
+  const addGuestItem = (item: Omit<MediaItem, 'id' | 'user_id' | 'created_at' | 'updated_at'>): MediaItem => {
+    const now = new Date().toISOString();
     const newItem: MediaItem = {
       ...item,
       id: `guest-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       user_id: 'guest',
-      created_at: new Date().toISOString(),
+      created_at: now,
+      updated_at: now,
     };
     
     setGuestData(prev => [...prev, newItem]);
