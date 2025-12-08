@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { X, Plus, Trash2, Film, Tv, AlertCircle, Sparkles, Calendar, Loader2, Book, Gamepad2, BookOpen } from 'lucide-react';
 import { mediaApi, seasonsApi } from '../../lib/supabase/api';
+import { useGuest } from '../../contexts/GuestContext';
 import { MediaType, MediaStatus } from '../../lib/supabase/types';
 
 interface AddMediaModalProps {
@@ -50,6 +51,7 @@ const COMIC_GENRES = [
 ];
 
 export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps) {
+  const { isGuest, addGuestItem } = useGuest();
   const [title, setTitle] = useState('');
   const [type, setType] = useState<MediaType>('movie');
   const [status, setStatus] = useState<MediaStatus>('plan_to_watch');
@@ -112,39 +114,59 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
     setLoading(true);
 
     try {
-      // Crear el media item
-      const { data: mediaItem, error: mediaError } = await mediaApi.createMediaItem({
-        title: title.trim(),
-        type,
-        status,
-        rating: rating && rating > 0 ? rating : undefined,
-        poster_url: posterUrl.trim() || undefined,
-        overview: overview.trim() || undefined,
-        release_date: releaseYear ? `${releaseYear}-01-01` : undefined,
-        genres: selectedGenres.length > 0 ? selectedGenres : undefined,
-        review: review.trim() || undefined,
-      });
+      if (isGuest) {
+        // Modo invitado: guardar en localStorage
+        const newItem = addGuestItem({
+          title: title.trim(),
+          type,
+          status,
+          rating: rating && rating > 0 ? rating : undefined,
+          poster_url: posterUrl.trim() || undefined,
+          overview: overview.trim() || undefined,
+          release_date: releaseYear ? `${releaseYear}-01-01` : undefined,
+          genres: selectedGenres.length > 0 ? selectedGenres : undefined,
+          review: review.trim() || undefined,
+        });
+        
+        // En modo invitado, no guardamos temporadas separadas
+        // Se podrían agregar como metadata en el futuro
+        
+        onSuccess();
+      } else {
+        // Usuario autenticado: guardar en Supabase
+        const { data: mediaItem, error: mediaError } = await mediaApi.createMediaItem({
+          title: title.trim(),
+          type,
+          status,
+          rating: rating && rating > 0 ? rating : undefined,
+          poster_url: posterUrl.trim() || undefined,
+          overview: overview.trim() || undefined,
+          release_date: releaseYear ? `${releaseYear}-01-01` : undefined,
+          genres: selectedGenres.length > 0 ? selectedGenres : undefined,
+          review: review.trim() || undefined,
+        });
 
-      if (mediaError || !mediaItem) {
-        throw new Error(mediaError?.message || 'Error al crear el item');
-      }
-
-      // Si es una serie, crear las temporadas
-      if (type === 'series' && seasons.length > 0) {
-        const seasonsToCreate = seasons.map((s) => ({
-          media_id: mediaItem.id,
-          season_number: s.season_number,
-          total_episodes: s.total_episodes,
-        }));
-
-        const { error: seasonsError } = await seasonsApi.createMultipleSeasons(seasonsToCreate);
-
-        if (seasonsError) {
-          throw new Error(seasonsError.message || 'Error al crear las temporadas');
+        if (mediaError || !mediaItem) {
+          throw new Error(mediaError?.message || 'Error al crear el item');
         }
-      }
 
-      onSuccess();
+        // Si es una serie, crear las temporadas
+        if (type === 'series' && seasons.length > 0) {
+          const seasonsToCreate = seasons.map((s) => ({
+            media_id: mediaItem.id,
+            season_number: s.season_number,
+            total_episodes: s.total_episodes,
+          }));
+
+          const { error: seasonsError } = await seasonsApi.createMultipleSeasons(seasonsToCreate);
+
+          if (seasonsError) {
+            throw new Error(seasonsError.message || 'Error al crear las temporadas');
+          }
+        }
+
+        onSuccess();
+      }
     } catch (err: any) {
       setError(err.message || 'Error inesperado al guardar');
     } finally {

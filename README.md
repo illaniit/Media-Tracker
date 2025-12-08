@@ -1,103 +1,333 @@
-# 🎬 Media Tracker - Tu Watchlist Personal
+# 🎬 Media Tracker
 
-Una aplicación web moderna y minimalista para hacer seguimiento de tus películas y series favoritas. Construida con React, TypeScript, Tailwind CSS y Supabase.
+<div align="center">
 
-![Tech Stack](https://img.shields.io/badge/React-18.2-blue)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.2-blue)
-![Tailwind](https://img.shields.io/badge/Tailwind-3.4-blue)
-![Supabase](https://img.shields.io/badge/Supabase-Latest-green)
+![Media Tracker Banner](https://img.shields.io/badge/Media-Tracker-amber?style=for-the-badge&logo=film&logoColor=white)
 
-## ✨ Características
+**Tu biblioteca personal de entretenimiento - Películas, Series, Libros, Videojuegos y Comics**
 
-- 🔐 **Autenticación completa** con Supabase Auth
-- 🎥 **Gestión de películas** con estados personalizados
-- 📺 **Seguimiento de series** con temporadas y episodios
-- ⭐ **Sistema de calificación** (1-10)
-- 🎨 **UI oscura y minimalista** con Tailwind CSS
-- 📱 **Totalmente responsive** (funciona en móvil y desktop)
-- 🚀 **Serverless** - cero costo de mantenimiento
-- 💾 **Row Level Security (RLS)** - datos protegidos por usuario
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.2-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-18.2-61dafb?style=flat-square&logo=react)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-5.4-646cff?style=flat-square&logo=vite)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-Latest-3fcf8e?style=flat-square&logo=supabase)](https://supabase.com/)
 
-## 🏗️ Estructura del Proyecto
+</div>
+
+---
+
+## 📖 Sobre el Proyecto
+
+**Media Tracker** es una aplicación web moderna para organizar y hacer seguimiento de tu contenido de entretenimiento favorito. Nació como un experimento personal de "vibe coding" para resolver una necesidad real: mantener un registro organizado de películas, series, libros, videojuegos y comics.
+
+### ¿Por qué existe este proyecto?
+
+Como estudiante de ingeniería informática, creé esta aplicación para:
+- 📚 Practicar tecnologías modernas de desarrollo web
+- 🎯 Resolver mi propio problema de gestión de contenido
+- 🎨 Experimentar con diseño UI/UX elegante y minimalista
+- 🚀 Aprender sobre arquitectura serverless y bases de datos en la nube
+
+> **Nota**: Este es un proyecto personal de experimentación y aprendizaje. El código está disponible públicamente con fines educativos.
+
+---
+
+## ✨ Características Principales
+
+### 🎭 Funcionalidades Core
+- **5 tipos de media**: Películas, Series, Libros, Videojuegos y Comics
+- **Sistema de estados**: Planificado, En progreso, Completado, En espera, Abandonado
+- **Calificaciones duales**: Tu rating personal + rating de TMDB
+- **Gestión de temporadas**: Seguimiento detallado de series por temporadas y episodios
+- **Reviews personales**: Escribe tus opiniones sobre cada contenido
+- **Modo invitado**: Prueba la app sin registrarte (datos en localStorage)
+
+### 🔐 Autenticación y Seguridad
+- Sistema de autenticación completo con Supabase Auth
+- Row Level Security (RLS) - tus datos son privados por defecto
+- Sesiones persistentes con refresh automático
+- Modo invitado con advertencias sobre persistencia de datos
+
+### 🎨 Diseño y Experiencia
+- **Tema elegante**: Negro profundo con acentos dorados
+- **Totalmente responsive**: Funciona perfectamente en móvil y desktop
+- **Performance optimizada**: Animaciones sutiles y transiciones rápidas
+- **Accesibilidad**: Contraste adecuado y navegación intuitiva
+
+### 🔗 Integraciones
+- **TMDB API**: Datos automáticos de películas y series
+- **Landing page profesional**: Explicación clara de la aplicación
+- **Footer con atribución**: Créditos visibles del creador
+
+---
+
+## 🏗️ Arquitectura Técnica
+
+### Stack Tecnológico
+
+```
+Frontend:
+├── React 18.2          → UI Library
+├── TypeScript 5.2      → Type Safety
+├── Vite 5.4           → Build Tool
+├── Tailwind CSS 3.4   → Styling
+└── React Router 6     → Navigation
+
+Backend & Servicios:
+├── Supabase           → Database + Auth + Storage
+├── PostgreSQL         → Relational Database
+└── TMDB API           → Movie & TV Data
+
+Herramientas:
+├── ESLint             → Code Linting
+├── PostCSS            → CSS Processing
+└── Git                → Version Control
+```
+
+### Estructura del Proyecto
 
 ```
 media-tracker/
 ├── src/
 │   ├── components/
-│   │   ├── auth/
-│   │   │   ├── Login.tsx              # Formulario de inicio de sesión
-│   │   │   ├── Register.tsx           # Formulario de registro
-│   │   │   └── ProtectedRoute.tsx     # HOC para proteger rutas
-│   │   ├── dashboard/
-│   │   │   ├── Dashboard.tsx          # Vista principal con grid
-│   │   │   ├── MediaCard.tsx          # Tarjeta de película/serie
-│   │   │   └── AddMediaModal.tsx      # Modal para añadir contenido
-│   │   └── media/
-│   │       ├── MediaDetail.tsx        # Vista de detalle
-│   │       └── SeasonList.tsx         # Gestión de temporadas
-│   ├── contexts/
-│   │   └── AuthContext.tsx            # Context API para auth
+│   │   ├── auth/                    # Autenticación
+│   │   │   ├── Login.tsx
+│   │   │   ├── Register.tsx
+│   │   │   └── ProtectedRoute.tsx
+│   │   ├── dashboard/               # Vista principal
+│   │   │   ├── Dashboard.tsx
+│   │   │   ├── MediaCard.tsx
+│   │   │   ├── AddMediaModal.tsx
+│   │   │   └── GuestWarningBanner.tsx
+│   │   ├── media/                   # Detalles de media
+│   │   │   ├── MediaDetail.tsx
+│   │   │   └── SeasonList.tsx
+│   │   └── LandingPage.tsx          # Página de inicio
+│   ├── contexts/                    # Context API
+│   │   ├── AuthContext.tsx
+│   │   └── GuestContext.tsx
 │   ├── lib/
-│   │   └── supabase/
-│   │       ├── supabaseClient.ts      # Cliente configurado
-│   │       ├── types.ts               # Tipos TypeScript
-│   │       └── api.ts                 # Funciones API
-│   ├── App.tsx                        # Routing principal
-│   ├── main.tsx                       # Entry point
-│   ├── index.css                      # Estilos globales
-│   └── vite-env.d.ts                  # Types de Vite
-├── supabase-schema.sql                # Script SQL completo
-├── package.json
-├── tsconfig.json
-├── tailwind.config.js
-├── vite.config.ts
-└── .env.example                       # Variables de entorno
+│   │   ├── supabase/                # Cliente Supabase
+│   │   │   ├── supabaseClient.ts
+│   │   │   ├── types.ts
+│   │   │   └── api.ts
+│   │   └── tmdb/                    # Cliente TMDB
+│   │       └── tmdbApi.ts
+│   ├── App.tsx                      # Router principal
+│   ├── main.tsx                     # Entry point
+│   └── index.css                    # Estilos globales
+├── supabase-schema.sql              # Schema de base de datos
+├── .env.example                     # Template de variables de entorno
+├── .gitignore                       # Archivos excluidos de Git
+├── LICENSE                          # Licencia de uso
+└── package.json                     # Dependencias del proyecto
 ```
+
+---
 
 ## 🚀 Instalación y Configuración
 
-### 1. Clonar y Preparar el Proyecto
+### Prerrequisitos
+
+- Node.js 18+ y npm
+- Cuenta en [Supabase](https://supabase.com) (gratuita)
+- Cuenta en [TMDB](https://www.themoviedb.org/) para API key (opcional pero recomendado)
+
+### Paso 1: Clonar el Repositorio
 
 ```bash
-# Navegar a la carpeta del proyecto
+git clone https://github.com/illaniit/media-tracker.git
 cd media-tracker
-
-# Instalar dependencias
 npm install
 ```
 
-### 2. Configurar Supabase
+### Paso 2: Configurar Supabase
 
-#### a) Crear proyecto en Supabase
+1. **Crear proyecto en Supabase**
+   - Ve a [https://supabase.com](https://supabase.com)
+   - Crea un nuevo proyecto
+   - Anota tu **Project URL** y **Anon Public Key**
 
-1. Ve a [https://supabase.com](https://supabase.com)
-2. Crea una cuenta o inicia sesión
-3. Crea un nuevo proyecto
-4. Anota tu **URL del proyecto** y **Anon Key**
+2. **Ejecutar el Schema SQL**
+   - En tu proyecto de Supabase, ve a **SQL Editor**
+   - Crea una nueva query
+   - Copia todo el contenido de `supabase-schema.sql`
+   - Pégalo y ejecuta (Run)
 
-#### b) Ejecutar el Schema SQL
+3. **Verificar tablas**
+   - Ve a **Table Editor** en Supabase
+   - Deberías ver las tablas: `media_items`, `seasons`, `episodes`
 
-1. En tu proyecto de Supabase, ve a **SQL Editor**
-2. Crea una nueva query
-3. Copia todo el contenido del archivo `supabase-schema.sql`
-4. Pégalo en el editor y ejecuta (Run)
-5. Verifica que las tablas se crearon correctamente en **Table Editor**
+### Paso 3: Obtener API Key de TMDB (Opcional)
 
-#### c) Configurar Variables de Entorno
+1. Crea una cuenta en [themoviedb.org](https://www.themoviedb.org/)
+2. Ve a Settings → API
+3. Solicita una API key (gratuita)
+4. Copia tu **API Key (v3 auth)**
+
+### Paso 4: Configurar Variables de Entorno
 
 ```bash
-# Crear archivo .env en la raíz del proyecto
+# Crear archivo .env desde el template
 cp .env.example .env
-
-# Editar .env con tus credenciales de Supabase
-VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
-VITE_SUPABASE_ANON_KEY=tu-anon-key-aqui
 ```
 
-### 3. Ejecutar el Proyecto
+Edita `.env` y añade tus credenciales:
+
+```env
+# Supabase (OBLIGATORIO)
+VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
+VITE_SUPABASE_ANON_KEY=tu-anon-key-aqui
+
+# TMDB (OPCIONAL - mejora la experiencia)
+VITE_TMDB_API_KEY=tu-tmdb-api-key-aqui
+```
+
+> ⚠️ **IMPORTANTE**: Nunca commitees el archivo `.env` a Git. Ya está incluido en `.gitignore`.
+
+### Paso 5: Ejecutar el Proyecto
 
 ```bash
 # Modo desarrollo
+npm run dev
+
+# Build para producción
+npm run build
+
+# Preview del build
+npm run preview
+```
+
+La aplicación estará disponible en: `http://localhost:5173`
+
+---
+
+## 📱 Uso de la Aplicación
+
+### Para Usuarios Nuevos
+
+1. **Modo Invitado** (sin registro)
+   - Click en "Probar como Invitado" en la landing page
+   - Explora todas las funcionalidades
+   - Los datos se guardan en tu navegador (localStorage)
+   - ⚠️ Los datos se pierden al limpiar el caché
+
+2. **Crear Cuenta** (recomendado)
+   - Click en "Crear Cuenta"
+   - Registra tu email y contraseña
+   - Tus datos estarán seguros en la nube
+   - Accede desde cualquier dispositivo
+
+### Gestión de Contenido
+
+1. **Añadir contenido**
+   - Click en el botón "+" en el Dashboard
+   - Selecciona el tipo (Película, Serie, Libro, Videojuego, Comic)
+   - Rellena los detalles o busca en TMDB
+   - Guarda y organiza
+
+2. **Organizar por estados**
+   - **Planificado**: Contenido que quieres ver/leer/jugar
+   - **En Progreso**: Actualmente consumiendo
+   - **Completado**: Ya terminado
+   - **En Espera**: Pausado temporalmente
+   - **Abandonado**: No planeas continuar
+
+3. **Calificar y reseñar**
+   - Añade tu rating personal (1-10)
+   - Escribe tu opinión en la sección de review
+   - Compara con el rating de TMDB
+
+---
+
+## 🤝 Contribuciones y Uso
+
+### ⚖️ Licencia y Derechos
+
+Este proyecto está bajo una **Licencia de Uso Personal y No Comercial**. Ver el archivo [LICENSE](LICENSE) para más detalles.
+
+#### ✅ Permitido:
+- Usar para aprendizaje y educación
+- Estudiar el código fuente
+- Crear fork para experimentación personal
+- Compartir con otros estudiantes
+
+#### ❌ NO Permitido:
+- Uso comercial o venta del software
+- Redistribución como producto comercial
+- Eliminar atribuciones o créditos
+- Reclamar autoría del proyecto
+
+### 👨‍💻 Sobre el Autor
+
+**Illán Iglesias Torres**  
+🎓 Estudiante de Ingeniería Informática  
+💻 Apasionado por el desarrollo web y la experimentación  
+🎨 Amante del diseño UI/UX elegante
+
+Este proyecto es un experimento de "vibe coding" - creado siguiendo la inspiración del momento para resolver una necesidad personal real.
+
+---
+
+## 📚 Documentación Adicional
+
+- [QUICKSTART.md](QUICKSTART.md) - Guía rápida de inicio
+- [COMO-EJECUTAR.md](COMO-EJECUTAR.md) - Instrucciones detalladas de ejecución
+- [MODO-INVITADO.md](MODO-INVITADO.md) - Documentación del modo invitado
+- [INTEGRACION-TMDB.md](INTEGRACION-TMDB.md) - Guía de integración con TMDB
+- [STRUCTURE.md](STRUCTURE.md) - Arquitectura detallada del proyecto
+
+---
+
+## 🐛 Problemas Conocidos y Soluciones
+
+### Error: "Variables de entorno no configuradas"
+**Solución**: Asegúrate de tener un archivo `.env` con las credenciales correctas.
+
+### Error de autenticación con Supabase
+**Solución**: Verifica que tu Project URL y Anon Key sean correctos.
+
+### TMDB API no funciona
+**Solución**: La API de TMDB es opcional. La app funciona sin ella, solo pierdes la búsqueda automática.
+
+---
+
+## 📄 Licencia
+
+Copyright © 2025 Illán Iglesias Torres
+
+Este proyecto está licenciado bajo una Licencia de Uso Personal y No Comercial.  
+Ver el archivo [LICENSE](LICENSE) para más información.
+
+---
+
+## 🙏 Agradecimientos
+
+- [Supabase](https://supabase.com) - Por su increíble plataforma Backend-as-a-Service
+- [TMDB](https://www.themoviedb.org/) - Por su API gratuita de datos de películas
+- [React](https://react.dev/) - Por hacer el desarrollo UI un placer
+- [Tailwind CSS](https://tailwindcss.com/) - Por el sistema de diseño perfecto
+
+---
+
+## 📞 Contacto
+
+Para preguntas, sugerencias o consultas sobre el proyecto:
+
+- 🐙 GitHub: [@illaniit](https://github.com/illaniit)
+- 💼 LinkedIn: [Illán Iglesias Torres]
+
+---
+
+<div align="center">
+
+**Hecho con ❤️ y ☕ por Illán Iglesias Torres**
+
+_Un experimento de vibe coding convertido en realidad_
+
+⭐ Si te gusta el proyecto, dale una estrella en GitHub
+
+</div>
 npm run dev
 
 # La aplicación estará disponible en http://localhost:5173

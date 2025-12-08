@@ -3,12 +3,14 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Film, Tv, Loader2, LogOut, MessageCircle, Book, Gamepad2, BookOpen } from 'lucide-react';
+import { Plus, Film, Tv, Loader2, LogOut, MessageCircle, Book, Gamepad2, BookOpen, Home } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useGuest } from '../../contexts/GuestContext';
 import { mediaApi } from '../../lib/supabase/api';
 import { MediaItem } from '../../lib/supabase/types';
 import MediaCard from './MediaCard';
 import AddMediaModal from './AddMediaModal';
+import GuestWarningBanner from './GuestWarningBanner';
 
 type FilterType = 'all' | 'movie' | 'series' | 'book' | 'videogame' | 'comic' | 'reviews' | 'pending-movies' | 'pending-series' | 'pending-books' | 'pending-videogames' | 'pending-comics';
 
@@ -19,11 +21,12 @@ export default function Dashboard() {
   const [filter, setFilter] = useState<FilterType>('all');
   const [showAddModal, setShowAddModal] = useState(false);
   const { user, signOut } = useAuth();
+  const { isGuest, guestData } = useGuest();
   const navigate = useNavigate();
 
   useEffect(() => {
     loadMediaItems();
-  }, []);
+  }, [isGuest, guestData]);
 
   useEffect(() => {
     applyFilter();
@@ -31,13 +34,21 @@ export default function Dashboard() {
 
   const loadMediaItems = async () => {
     setLoading(true);
-    const { data, error } = await mediaApi.getMediaItems();
-    if (error) {
-      console.error('Error al cargar items:', error);
-    } else if (data) {
-      setMediaItems(data);
+    
+    if (isGuest) {
+      // Modo invitado: usar datos de localStorage
+      setMediaItems(guestData);
+      setLoading(false);
+    } else {
+      // Usuario autenticado: cargar de Supabase
+      const { data, error } = await mediaApi.getMediaItems();
+      if (error) {
+        console.error('Error al cargar items:', error);
+      } else if (data) {
+        setMediaItems(data);
+      }
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const applyFilter = () => {
@@ -67,8 +78,12 @@ export default function Dashboard() {
   };
 
   const handleSignOut = async () => {
-    await signOut();
-    navigate('/login');
+    if (isGuest) {
+      navigate('/');
+    } else {
+      await signOut();
+      navigate('/');
+    }
   };
 
   const handleMediaClick = (id: string) => {
@@ -82,6 +97,9 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Guest Warning Banner */}
+      {isGuest && <GuestWarningBanner />}
+      
       {/* Elegant Background Pattern */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-neutral-900 via-black to-neutral-950"></div>
@@ -105,17 +123,33 @@ export default function Dashboard() {
                   Media Tracker
                 </h1>
                 <p className="text-xs sm:text-sm text-neutral-400 hidden sm:block">
-                  Hey <span className="text-amber-400 font-semibold">{user?.email?.split('@')[0]}</span> 👋
+                  {isGuest ? (
+                    <span>Modo <span className="text-amber-400 font-semibold">Invitado</span> 👋</span>
+                  ) : (
+                    <span>Hey <span className="text-amber-400 font-semibold">{user?.email?.split('@')[0]}</span> 👋</span>
+                  )}
                 </p>
               </div>
             </div>
-            <button
-              onClick={handleSignOut}
-              className="group relative flex items-center space-x-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-neutral-200 rounded-xl transition-all duration-200 text-sm sm:text-base"
-            >
-              <LogOut className="w-4 h-4" />
-              <span className="hidden sm:inline font-medium">Salir</span>
-            </button>
+            <div className="flex items-center gap-2">
+              {isGuest && (
+                <button
+                  onClick={() => navigate('/')}
+                  className="p-2 sm:px-4 sm:py-2 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-neutral-200 rounded-xl transition-all duration-200 flex items-center gap-2"
+                  title="Volver al inicio"
+                >
+                  <Home className="w-4 h-4" />
+                  <span className="hidden sm:inline font-medium text-sm">Inicio</span>
+                </button>
+              )}
+              <button
+                onClick={handleSignOut}
+                className="flex items-center space-x-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-neutral-200 rounded-xl transition-all duration-200 text-sm sm:text-base"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="hidden sm:inline font-medium">{isGuest ? 'Salir' : 'Cerrar Sesión'}</span>
+              </button>
+            </div>
           </div>
         </div>
       </header>

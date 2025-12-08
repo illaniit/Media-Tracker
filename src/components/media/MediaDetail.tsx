@@ -5,12 +5,14 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Edit2, Trash2, Save, X, Film, Tv, Star, Calendar, Globe } from 'lucide-react';
 import { mediaApi } from '../../lib/supabase/api';
+import { useGuest } from '../../contexts/GuestContext';
 import { MediaItem, MediaStatus } from '../../lib/supabase/types';
 import SeasonList from './SeasonList';
 
 export default function MediaDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { isGuest, getGuestItemById, updateGuestItem, deleteGuestItem } = useGuest();
   const [item, setItem] = useState<MediaItem | null>(null);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
@@ -32,36 +34,67 @@ export default function MediaDetail() {
     if (!id) return;
 
     setLoading(true);
-    const { data, error } = await mediaApi.getMediaItemById(id);
-
-    if (error || !data) {
-      console.error('Error al cargar item:', error);
-      navigate('/dashboard');
+    
+    if (isGuest) {
+      // Modo invitado: cargar de localStorage
+      const guestItem = getGuestItemById(id);
+      if (!guestItem) {
+        console.error('Item no encontrado en datos de invitado');
+        navigate('/guest');
+      } else {
+        setItem(guestItem);
+        setEditTitle(guestItem.title);
+        setEditStatus(guestItem.status);
+        setEditRating(guestItem.rating);
+        setEditPosterUrl(guestItem.poster_url || '');
+      }
     } else {
-      setItem(data);
-      setEditTitle(data.title);
-      setEditStatus(data.status);
-      setEditRating(data.rating);
-      setEditPosterUrl(data.poster_url || '');
+      // Usuario autenticado: cargar de Supabase
+      const { data, error } = await mediaApi.getMediaItemById(id);
+
+      if (error || !data) {
+        console.error('Error al cargar item:', error);
+        navigate('/dashboard');
+      } else {
+        setItem(data);
+        setEditTitle(data.title);
+        setEditStatus(data.status);
+        setEditRating(data.rating);
+        setEditPosterUrl(data.poster_url || '');
+      }
     }
+    
     setLoading(false);
   };
 
   const handleSaveEdit = async () => {
     if (!id) return;
 
-    const { error } = await mediaApi.updateMediaItem(id, {
-      title: editTitle,
-      status: editStatus,
-      rating: editRating && editRating > 0 ? editRating : undefined,
-      poster_url: editPosterUrl || undefined,
-    });
-
-    if (error) {
-      alert('Error al actualizar: ' + error.message);
-    } else {
+    if (isGuest) {
+      // Modo invitado: actualizar en localStorage
+      updateGuestItem(id, {
+        title: editTitle,
+        status: editStatus,
+        rating: editRating && editRating > 0 ? editRating : undefined,
+        poster_url: editPosterUrl || undefined,
+      });
       setEditing(false);
       loadMediaItem();
+    } else {
+      // Usuario autenticado: actualizar en Supabase
+      const { error } = await mediaApi.updateMediaItem(id, {
+        title: editTitle,
+        status: editStatus,
+        rating: editRating && editRating > 0 ? editRating : undefined,
+        poster_url: editPosterUrl || undefined,
+      });
+
+      if (error) {
+        alert('Error al actualizar: ' + error.message);
+      } else {
+        setEditing(false);
+        loadMediaItem();
+      }
     }
   };
 
@@ -69,13 +102,21 @@ export default function MediaDetail() {
     if (!id || !confirm('¿Estás seguro de que quieres eliminar este item?')) return;
 
     setDeleting(true);
-    const { error } = await mediaApi.deleteMediaItem(id);
-
-    if (error) {
-      alert('Error al eliminar: ' + error.message);
-      setDeleting(false);
+    
+    if (isGuest) {
+      // Modo invitado: eliminar de localStorage
+      deleteGuestItem(id);
+      navigate('/guest');
     } else {
-      navigate('/dashboard');
+      // Usuario autenticado: eliminar de Supabase
+      const { error } = await mediaApi.deleteMediaItem(id);
+
+      if (error) {
+        alert('Error al eliminar: ' + error.message);
+        setDeleting(false);
+      } else {
+        navigate('/dashboard');
+      }
     }
   };
 
