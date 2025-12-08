@@ -29,41 +29,10 @@ body {
   overflow-x: hidden;
 }
 
-/* Animated Background */
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Pulse Animation */
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.6), 0 0 60px rgba(181, 55, 242, 0.4); }
-}
-
-/* Float Animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-/* Shimmer Effect */
+/* Shimmer Effect (solo para carga) */
 @keyframes shimmer {
   0% { background-position: -1000px 0; }
   100% { background-position: 1000px 0; }
-}
-
-/* Rotate Gradient */
-@keyframes rotate-gradient {
-  0% { filter: hue-rotate(0deg); }
-  100% { filter: hue-rotate(360deg); }
-}
-
-/* Scale Bounce */
-@keyframes scale-bounce {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
 }
 
 /* Scrollbar styling - Neón Style */
@@ -124,21 +93,13 @@ body {
               0 0 30px rgba(181, 55, 242, 0.1);
 }
 
-/* Card Hover 3D */
+/* Card Hover 3D - Simplificado */
 .card-3d {
-  transform-style: preserve-3d;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.2s ease;
 }
 
 .card-3d:hover {
-  transform: translateY(-8px) rotateX(2deg) rotateY(2deg);
-}
-
-/* Animated Gradient Background */
-.gradient-bg {
-  background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  transform: translateY(-4px);
 }
 
 /* Shimmer Loading */

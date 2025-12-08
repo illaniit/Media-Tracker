@@ -41,9 +41,9 @@ export default function MediaCard({ item, onClick }: MediaCardProps) {
       className="group relative cursor-pointer"
     >
       {/* Glow effect on hover */}
-      <div className={`absolute -inset-0.5 bg-gradient-to-r ${typeGradients[item.type]} rounded-2xl opacity-0 group-hover:opacity-30 blur-lg transition-all duration-500`}></div>
+      <div className={`absolute -inset-0.5 bg-gradient-to-r ${typeGradients[item.type]} rounded-2xl opacity-0 group-hover:opacity-20 blur transition-opacity duration-300`}></div>
       
-      <div className="relative glass-dark rounded-2xl overflow-hidden transition-all duration-500 hover:scale-[1.02] flex flex-col h-full border border-white/10 hover:border-white/20">
+      <div className="relative glass-dark rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.01] flex flex-col h-full border border-white/10 hover:border-white/20">
         {/* Poster */}
         <div className="relative aspect-[2/3] bg-gradient-to-br from-slate-800 via-slate-900 to-black overflow-hidden">
           {posterImage ? (
@@ -51,11 +51,11 @@ export default function MediaCard({ item, onClick }: MediaCardProps) {
               <img
                 src={posterImage}
                 alt={item.title}
-                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110"
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 loading="lazy"
               />
               {/* Gradient overlay on hover */}
-              <div className={`absolute inset-0 bg-gradient-to-t ${typeGradients[item.type]} opacity-0 group-hover:opacity-20 transition-opacity duration-500`}></div>
+              <div className={`absolute inset-0 bg-gradient-to-t ${typeGradients[item.type]} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
             </>
           ) : (
             <div className="w-full h-full flex items-center justify-center relative">
@@ -75,7 +75,7 @@ export default function MediaCard({ item, onClick }: MediaCardProps) {
           )}
 
           {/* Type Badge with gradient */}
-          <div className={`absolute top-2 right-2 glass rounded-lg px-2 py-1.5 border border-white/20 backdrop-blur-xl group-hover:scale-110 transition-transform duration-300`}>
+          <div className={`absolute top-2 right-2 glass rounded-lg px-2 py-1.5 border border-white/20 backdrop-blur-xl group-hover:scale-105 transition-transform duration-200`}>
             {item.type === 'movie' ? (
               <Film className="w-4 h-4 text-blue-400" />
             ) : item.type === 'series' ? (
@@ -91,7 +91,7 @@ export default function MediaCard({ item, onClick }: MediaCardProps) {
 
           {/* TMDB Rating Badge */}
           {item.vote_average && item.vote_average > 0 && (
-            <div className="absolute top-2 left-2 glass rounded-lg px-2 py-1.5 border border-yellow-500/30 backdrop-blur-xl flex items-center gap-1 group-hover:scale-110 transition-transform duration-300">
+            <div className="absolute top-2 left-2 glass rounded-lg px-2 py-1.5 border border-yellow-500/30 backdrop-blur-xl flex items-center gap-1 group-hover:scale-105 transition-transform duration-200">
               <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
               <span className="text-xs font-bold text-yellow-400">
                 {item.vote_average.toFixed(1)}
@@ -101,7 +101,7 @@ export default function MediaCard({ item, onClick }: MediaCardProps) {
           
           {/* User Rating Badge */}
           {item.rating && (
-            <div className="absolute bottom-2 left-2 glass rounded-lg px-2 py-1.5 border border-blue-500/30 backdrop-blur-xl flex items-center gap-1 group-hover:scale-110 transition-transform duration-300">
+            <div className="absolute bottom-2 left-2 glass rounded-lg px-2 py-1.5 border border-blue-500/30 backdrop-blur-xl flex items-center gap-1 group-hover:scale-105 transition-transform duration-200">
               <Star className="w-3 h-3 text-blue-400 fill-blue-400" />
               <span className="text-xs font-bold text-blue-400">{item.rating}</span>
             </div>

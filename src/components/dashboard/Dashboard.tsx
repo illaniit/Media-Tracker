@@ -84,9 +84,9 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-purple-950 relative overflow-hidden">
       {/* Animated Background Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-700"></div>
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-2xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-2xl"></div>
+        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-pink-500/5 rounded-full blur-2xl"></div>
       </div>
 
       {/* Header */}
@@ -95,8 +95,7 @@ export default function Dashboard() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3 sm:space-x-4">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl blur opacity-75 animate-pulse"></div>
-                <div className="relative bg-gradient-to-r from-blue-500 to-purple-600 p-2 sm:p-2.5 rounded-xl">
+                <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-2 sm:p-2.5 rounded-xl shadow-lg">
                   <Film className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
               </div>
