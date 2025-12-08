@@ -59,51 +59,50 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-purple-950 flex items-center justify-center px-4 py-8 relative overflow-hidden">
-      {/* Animated Background Orbs */}
+    <div className="min-h-screen bg-black flex items-center justify-center px-4 py-8 relative overflow-hidden">
+      {/* Elegant Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-700"></div>
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-neutral-900 via-black to-neutral-950"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-neutral-400/3 rounded-full blur-3xl"></div>
       </div>
 
       <div className="max-w-md w-full space-y-8 relative z-10">
         {/* Logo y título */}
         <div className="text-center">
           <div className="flex justify-center">
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl blur-xl opacity-75 group-hover:opacity-100 animate-pulse"></div>
-              <div className="relative bg-gradient-to-r from-blue-500 to-purple-600 p-4 rounded-2xl">
-                <Film className="w-12 h-12 text-white" />
+            <div className="relative">
+              <div className="bg-gradient-to-br from-amber-500 to-amber-600 p-4 rounded-2xl shadow-2xl shadow-amber-500/20">
+                <Film className="w-12 h-12 text-black" />
               </div>
             </div>
           </div>
-          <h2 className="mt-6 text-4xl font-black bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <h2 className="mt-6 text-4xl font-black bg-gradient-to-r from-amber-200 via-amber-300 to-neutral-200 bg-clip-text text-transparent">
             Crear cuenta
           </h2>
-          <p className="mt-3 text-base text-slate-400 font-medium">
+          <p className="mt-3 text-base text-neutral-400 font-medium">
             Únete y organiza tu colección 🚀
           </p>
         </div>
 
         {/* Formulario */}
-        <div className="glass-dark rounded-2xl shadow-2xl p-8 border border-white/10">
+        <div className="bg-neutral-950 rounded-2xl shadow-2xl p-8 border border-neutral-800">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
-              <div className="glass rounded-xl border border-red-500/30 bg-gradient-to-r from-red-500/10 to-pink-500/10 text-red-300 px-4 py-3 text-sm font-medium backdrop-blur-xl">
+              <div className="bg-red-950/50 rounded-xl border border-red-800/50 text-red-300 px-4 py-3 text-sm font-medium">
                 ⚠️ {error}
               </div>
             )}
 
             {success && (
-              <div className="glass rounded-xl border border-green-500/30 bg-gradient-to-r from-green-500/10 to-emerald-500/10 text-green-300 px-4 py-3 text-sm font-medium backdrop-blur-xl flex items-center gap-2">
+              <div className="bg-green-950/50 rounded-xl border border-green-800/50 text-green-300 px-4 py-3 text-sm font-medium flex items-center gap-2">
                 <CheckCircle className="w-5 h-5" />
                 ✨ ¡Cuenta creada exitosamente! Redirigiendo...
               </div>
             )}
 
             <div>
-              <label htmlFor="username" className="block text-sm font-bold text-slate-300 mb-2">
+              <label htmlFor="username" className="block text-sm font-bold text-neutral-300 mb-2">
                 👤 Nombre de usuario
               </label>
               <input
@@ -113,13 +112,13 @@ export default function Register() {
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-3 glass border border-white/20 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-400 focus:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all duration-300"
+                className="w-full px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200"
                 placeholder="usuario123"
               />
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-bold text-slate-300 mb-2">
+              <label htmlFor="email" className="block text-sm font-bold text-neutral-300 mb-2">
                 📧 Correo electrónico
               </label>
               <input
@@ -130,13 +129,13 @@ export default function Register() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 glass border border-white/20 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-400 focus:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all duration-300"
+                className="w-full px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200"
                 placeholder="tu@email.com"
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-bold text-slate-300 mb-2">
+              <label htmlFor="password" className="block text-sm font-bold text-neutral-300 mb-2">
                 🔒 Contraseña
               </label>
               <input
@@ -147,13 +146,13 @@ export default function Register() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 glass border border-white/20 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-400 focus:shadow-[0_0_20px_rgba(168,85,247,0.5)] transition-all duration-300"
+                className="w-full px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200"
                 placeholder="••••••••"
               />
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-bold text-slate-300 mb-2">
+              <label htmlFor="confirmPassword" className="block text-sm font-bold text-neutral-300 mb-2">
                 🔐 Confirmar contraseña
               </label>
               <input
@@ -164,7 +163,7 @@ export default function Register() {
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-4 py-3 glass border border-white/20 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-400 focus:shadow-[0_0_20px_rgba(168,85,247,0.5)] transition-all duration-300"
+                className="w-full px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200"
                 placeholder="••••••••"
               />
             </div>
@@ -172,7 +171,7 @@ export default function Register() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center items-center px-6 py-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 text-white font-bold rounded-xl focus:outline-none shadow-lg hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className="w-full flex justify-center items-center px-6 py-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold rounded-xl shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>
@@ -186,11 +185,11 @@ export default function Register() {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-neutral-400">
               ¿Ya tienes una cuenta?{' '}
               <Link
                 to="/login"
-                className="gradient-text font-bold hover:scale-105 inline-block transition-transform duration-300"
+                className="text-amber-400 hover:text-amber-300 font-bold transition"
               >
                 Inicia sesión aquí
               </Link>

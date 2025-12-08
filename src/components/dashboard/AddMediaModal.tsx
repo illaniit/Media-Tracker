@@ -164,34 +164,34 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
   };
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-slate-900/95 via-purple-900/40 to-blue-900/40 backdrop-blur-lg flex items-center justify-center p-2 sm:p-4 z-50 overflow-y-auto animate-[fadeIn_0.2s_ease-out]">
-      <div className="glass-dark rounded-2xl shadow-[0_0_50px_rgba(168,85,247,0.3)] w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col my-auto border border-white/10">
+    <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 z-50 overflow-y-auto">
+      <div className="bg-neutral-950 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col my-auto border border-neutral-800">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-white/10 flex-shrink-0 bg-gradient-to-r from-purple-500/10 to-blue-500/10">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-neutral-800 flex-shrink-0 bg-neutral-900">
           <div className="flex items-center gap-2 sm:gap-3">
-            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400 animate-pulse" />
-            <h2 className="text-xl sm:text-2xl font-bold gradient-text">Añadir Contenido</h2>
+            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400" />
+            <h2 className="text-xl sm:text-2xl font-bold text-amber-400">Añadir Contenido</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-2 glass hover:bg-white/20 rounded-xl transition-all duration-300 hover:scale-110 hover:rotate-90"
+            className="p-2 bg-neutral-900 hover:bg-neutral-800 rounded-xl transition-all duration-200"
           >
-            <X className="w-5 h-5 text-slate-300" />
+            <X className="w-5 h-5 text-neutral-300" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto">
           <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
             {error && (
-              <div className="glass border border-red-400/50 text-red-300 px-3 sm:px-4 py-2 sm:py-3 rounded-xl text-xs sm:text-sm flex items-start gap-2 bg-red-500/10">
-                <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5 animate-pulse" />
+              <div className="bg-red-950/50 border border-red-800/50 text-red-300 px-3 sm:px-4 py-2 sm:py-3 rounded-xl text-xs sm:text-sm flex items-start gap-2">
+                <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 mt-0.5" />
                 <span>{error}</span>
               </div>
             )}
 
             {/* Tipo */}
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-sm font-medium text-neutral-300 mb-2">
                 ¿Qué quieres añadir? *
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
@@ -201,10 +201,10 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                     setType('movie');
                     resetForm();
                   }}
-                  className={`px-3 py-3 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${
+                  className={`px-3 py-3 rounded-xl font-bold transition-all duration-200 flex items-center justify-center gap-2 text-sm ${
                     type === 'movie'
-                      ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/50 scale-105 border-2 border-blue-400'
-                      : 'glass text-slate-300 hover:bg-white/10 hover:scale-105 border border-white/10'
+                      ? 'bg-neutral-100 text-black shadow-lg shadow-neutral-100/20'
+                      : 'bg-neutral-900 text-neutral-300 hover:bg-neutral-800 border border-neutral-800'
                   }`}
                 >
                   <Film className="w-5 h-5" />
@@ -216,10 +216,10 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                     setType('series');
                     resetForm();
                   }}
-                  className={`px-3 py-3 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${
+                  className={`px-3 py-3 rounded-xl font-bold transition-all duration-200 flex items-center justify-center gap-2 text-sm ${
                     type === 'series'
-                      ? 'bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg shadow-purple-500/50 scale-105 border-2 border-purple-400'
-                      : 'glass text-slate-300 hover:bg-white/10 hover:scale-105 border border-white/10'
+                      ? 'bg-neutral-200 text-black shadow-lg shadow-neutral-200/20'
+                      : 'bg-neutral-900 text-neutral-300 hover:bg-neutral-800 border border-neutral-800'
                   }`}
                 >
                   <Tv className="w-5 h-5" />
@@ -231,10 +231,10 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                     setType('book');
                     resetForm();
                   }}
-                  className={`px-3 py-3 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${
+                  className={`px-3 py-3 rounded-xl font-bold transition-all duration-200 flex items-center justify-center gap-2 text-sm ${
                     type === 'book'
-                      ? 'bg-gradient-to-r from-green-600 to-emerald-500 text-white shadow-lg shadow-green-500/50 scale-105 border-2 border-green-400'
-                      : 'glass text-slate-300 hover:bg-white/10 hover:scale-105 border border-white/10'
+                      ? 'bg-neutral-300 text-black shadow-lg shadow-neutral-300/20'
+                      : 'bg-neutral-900 text-neutral-300 hover:bg-neutral-800 border border-neutral-800'
                   }`}
                 >
                   <Book className="w-5 h-5" />
@@ -246,10 +246,10 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                     setType('videogame');
                     resetForm();
                   }}
-                  className={`px-3 py-3 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${
+                  className={`px-3 py-3 rounded-xl font-bold transition-all duration-200 flex items-center justify-center gap-2 text-sm ${
                     type === 'videogame'
-                      ? 'bg-gradient-to-r from-orange-600 to-red-500 text-white shadow-lg shadow-orange-500/50 scale-105 border-2 border-orange-400'
-                      : 'glass text-slate-300 hover:bg-white/10 hover:scale-105 border border-white/10'
+                      ? 'bg-amber-400 text-black shadow-lg shadow-amber-400/20'
+                      : 'bg-neutral-900 text-neutral-300 hover:bg-neutral-800 border border-neutral-800'
                   }`}
                 >
                   <Gamepad2 className="w-5 h-5" />
@@ -261,10 +261,10 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
                     setType('comic');
                     resetForm();
                   }}
-                  className={`px-3 py-3 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${
+                  className={`px-3 py-3 rounded-xl font-bold transition-all duration-200 flex items-center justify-center gap-2 text-sm ${
                     type === 'comic'
-                      ? 'bg-gradient-to-r from-pink-600 to-rose-500 text-white shadow-lg shadow-pink-500/50 scale-105 border-2 border-pink-400'
-                      : 'glass text-slate-300 hover:bg-white/10 hover:scale-105 border border-white/10'
+                      ? 'bg-neutral-400 text-black shadow-lg shadow-neutral-400/20'
+                      : 'bg-neutral-900 text-neutral-300 hover:bg-neutral-800 border border-neutral-800'
                   }`}
                 >
                   <BookOpen className="w-5 h-5" />
@@ -273,23 +273,23 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
               </div>
             </div>
 
-            <div className="border-t border-white/10 pt-6">
-              <h3 className="text-lg font-bold gradient-text mb-4 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-blue-400 animate-pulse" />
+            <div className="border-t border-neutral-800 pt-6">
+              <h3 className="text-lg font-bold text-amber-400 mb-4 flex items-center gap-2">
+                <Sparkles className="w-5 h-5" />
                 Información Básica
               </h3>
 
               <div className="space-y-4">
                 {/* Título */}
                 <div>
-                  <label className="block text-sm font-bold text-slate-300 mb-2">
+                  <label className="block text-sm font-bold text-neutral-300 mb-2">
                     🎬 Título *
                   </label>
                   <input
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    className="w-full px-4 py-3 glass border border-white/20 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-400 focus:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all duration-300"
+                    className="w-full px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl text-neutral-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-200"
                     placeholder={type === 'movie' ? 'Ej: Inception' : 'Ej: Breaking Bad'}
                     required
                     autoFocus
@@ -515,22 +515,22 @@ export default function AddMediaModal({ onClose, onSuccess }: AddMediaModalProps
           </div>
 
           {/* Footer */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-3 p-4 sm:p-6 border-t border-white/10 glass flex-shrink-0">
-            <p className="text-xs text-slate-400 text-center sm:text-left">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 sm:gap-3 p-4 sm:p-6 border-t border-neutral-800 bg-neutral-900 flex-shrink-0">
+            <p className="text-xs text-neutral-400 text-center sm:text-left">
               Los campos marcados con * son obligatorios
             </p>
             <div className="flex gap-2 sm:gap-3">
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 glass hover:bg-white/20 text-slate-100 rounded-xl transition-all duration-300 font-bold text-sm sm:text-base border border-white/20 hover:scale-105"
+                className="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-neutral-100 rounded-xl transition-all duration-200 font-bold text-sm sm:text-base border border-neutral-800"
               >
                 Cancelar
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white rounded-xl transition-all duration-300 font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-purple-500/50 hover:shadow-[0_0_30px_rgba(168,85,247,0.6)] text-sm sm:text-base hover:scale-105 disabled:hover:scale-100"
+                className="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black rounded-xl transition-all duration-200 font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-amber-500/30 text-sm sm:text-base"
               >
                 {loading ? (
                   <>
